@@ -1,11 +1,14 @@
 <template>
-  <div class="max-w-md mx-auto">
+  <div class="max-w-lg mx-auto">
     <h1 class="text-2xl font-bold mb-4">Lista de Contatos</h1>
-    <router-link to="/add" class="text-blue-500 mb-4 inline-block">Adicionar Novo Contato</router-link>
+    <router-link to="/add" class="text-blue-500 mb-12 inline-block">Adicionar Novo Contato</router-link>
     <ul>
       <li v-for="contact in contacts" :key="contact.id" class="mb-2 flex justify-between items-center">
         <router-link :to="'/contact/' + contact.id" class="text-blue-700">{{ contact.name }}</router-link>
+        <div class="flex space-x-2">
+        <button @click="editContact(contact.id)" class="bg-blue-600 text-white px-2 py-1 rounded">Editar Contato</button>
         <button @click="confirmDelete(contact.id)" class="bg-green-500 text-white px-2 py-1 rounded">Apagar</button>
+      </div>
       </li>
     </ul>
   </div>
@@ -64,6 +67,9 @@ export default defineComponent({
       const updatedContacts = contacts.filter(contact => contact.id !== id);
       localStorage.setItem('contacts', JSON.stringify(updatedContacts));
       this.contacts = updatedContacts;
+    },
+    editContact(id:number){
+      this.$router.push(`/edit/${id}`);
     }
   }
 });

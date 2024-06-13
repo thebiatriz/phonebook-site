@@ -10,6 +10,8 @@ import ContactDetail from '../components/ContactDetail.vue'
 //importando o componente ContactDetail.vue 
 
 import AddContact from '../components/AddContact.vue';
+
+import EditContact from '../components/EditContact.vue';
 //importando o componente AddContact
 
 
@@ -23,7 +25,9 @@ const routes = [ //array de objetos, com as rotas da aplicação
   //path define o caminho da url referente ao component
   { path: '/', component: ContactList }, 
   { path: '/contact/:id', component: ContactDetail },
-  { path: '/add', component: AddContact }
+  { path: '/add', component: AddContact },
+  { path: '/edit/:id', component: EditContact }
+
 ];
 
 //criando uma instancia (variavel) com um objeto
