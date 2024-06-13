@@ -11,7 +11,7 @@
           <input type="text" v-model="contact.phone" id="phone" class="w-full mb-8 px-2 py-1 border rounded" required />
         </div>
 
-        <div class="flex flex-col space-y-3">
+        <div class="flex flex-col space-y-3 w-32 mx-auto">
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Salvar</button>
         <router-link to="/" class="text-blue-500 text-center">Voltar</router-link>
         </div>
