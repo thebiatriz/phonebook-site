@@ -1,7 +1,11 @@
-export class ContactMockAPI{
+export class Contact{
     constructor(
-        public name?: string,
-        public contact?: string,
-        public email?: string
+        public contact : {
+            name?: string,
+            phoneNumber?: string,
+            email?: string,
+            id?: string
+        }
+       
     ){}
 }

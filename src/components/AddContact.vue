@@ -8,9 +8,12 @@
         </div>
         <div>
           <label for="phone" class="block mb-1">Telefone:</label>
-          <input id="phone" v-model="newContact.phone" required class="border rounded p-2 w-full" />
+          <input id="phone" v-model="newContact.phone" required class="border rounded p-2 w-full mb-8" />
         </div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Adicionar</button>
+        <div class="flex flex-col space-y-3 w-32 mx-auto">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Adicionar</button>
+        <router-link to="/" class="text-blue-500 text-center">Voltar</router-link>
+        </div>
       </form>
     </div>
   </template>
