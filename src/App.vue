@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <router-link to="/" class="nav-link" :class="{ active: $route.path === '/'}">Home</router-link> |
-    <router-link to="/about" class="nav-link" :class="{ active: $route.path === '/about' }">About</router-link>
+    <router-link to="/" class="nav-link" :class="{ active: $route.path === '/'}">Home</router-link> <!-- |
+    <router-link to="/about" class="nav-link" :class="{ active: $route.path === '/about' }">About</router-link> -->
   </nav>
   <router-view/>
 </template>
