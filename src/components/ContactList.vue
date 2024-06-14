@@ -5,10 +5,21 @@
     <ul>
       <li v-for="contact in contacts" :key="contact.id" class="mb-2 flex justify-between items-center">
         <router-link :to="'/contact/' + contact.id" class="text-blue-700">{{ contact.name }}</router-link>
-        <div class="flex space-x-2">
-        <button @click="editContact(contact.id)" class="bg-blue-600 text-white px-2 py-1 rounded">Editar Contato</button>
-        <button @click="confirmDelete(contact.id)" class="bg-green-500 text-white px-2 py-1 rounded">Apagar</button>
-      </div>
+
+        <div class="relative">
+          <button @click="toggleMenu(contact.id)" class="text-gray-500 hover:text-gray-700">
+            ⋮
+          </button>
+
+          <div v-if="menuOpen === contact.id" class = "absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+            <div @click="editContact(contact.id)" class="block bg-green-600 text-white px-2 py-1 rounded cursor-pointer">
+              Editar {{ contact.name }}
+            </div>
+            <div @click="confirmDelete(contact.id)" class="block bg-gray-600 text-white px-2 py-1 rounded cursor-pointer">
+              Excluir {{ contact.name }}
+            </div>          
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -27,7 +38,8 @@ interface Contact {
 export default defineComponent({
   data() {
     return {
-      contacts: [] as Contact[]
+      contacts: [] as Contact[],
+      menuOpen: null as number | null
     };
   },
   created() {
@@ -61,6 +73,15 @@ export default defineComponent({
         })
         }
       })
+    },
+    toggleMenu(id: number){
+      this.menuOpen = this.menuOpen === id ? null : id;
+
+      //this.menuOpen é verificado para ver se menuOpen é igual ao id que requisitou o toggleMenu
+      /*Se for igual ao id, então o menuOpen será null e o menu vai fechar ao ser clicado no toggle
+      Se não for igual ao id, ou seja, o menuOpen for null, o resultado será false incrementando como o valor do id
+      Assim, o menu será aberto*/
+      
     },
     deleteContact(id: number) {
       const contacts = JSON.parse(localStorage.getItem('contacts') || '[]') as Contact[];
