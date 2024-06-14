@@ -11,7 +11,7 @@
             ⋮
           </button>
 
-          <div v-if="menuOpen === contact.id" class = "absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+          <div v-if="menuOpen === contact.id" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
             <div @click="editContact(contact.id)" class="block bg-green-600 text-white px-2 py-1 rounded cursor-pointer">
               Editar 
             </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Swal from 'sweetalert2';
 
 interface Contact {
@@ -36,20 +36,19 @@ interface Contact {
 }
 
 export default defineComponent({
+  name: 'ContactList',
+  props: {
+    contacts: {
+      type: Array as PropType<Contact[]>,
+      required: true,
+    },
+  },
   data() {
     return {
-      contacts: [] as Contact[],
-      menuOpen: null as number | null
+      menuOpen: null as number | null,
     };
   },
-  created() {
-    this.loadContacts();
-  },
   methods: {
-    loadContacts() {
-      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]') as Contact[];
-      this.contacts = contacts;
-    },
     confirmDelete(id: number) {
       Swal.fire({
         title: 'Tem certeza que deseja apagar o contato?',
@@ -61,36 +60,22 @@ export default defineComponent({
         confirmButtonText: 'Tenho certeza',
         cancelButtonText: 'Cancelar',
         iconColor: '#FF7F50'
-
       }).then((result) => {
         if (result.isConfirmed) {
-          this.deleteContact(id);
+          this.$emit('deleteContact', id);
           Swal.fire({
-            title:'Apagado!',
-            text:'Seu contato foi apagado.',
+            title: 'Apagado!',
+            text: 'Seu contato foi apagado.',
             icon: 'success',
             confirmButtonColor: '#3daf7c'
-        })
+          });
         }
-      })
+      });
     },
-
-    toggleMenu(id: number){
+    toggleMenu(id: number) {
       this.menuOpen = this.menuOpen === id ? null : id;
-
-      //this.menuOpen é verificado para ver se menuOpen é igual ao id que requisitou o toggleMenu
-      /*Se for igual ao id, então o menuOpen será null e o menu vai fechar ao ser clicado no toggle
-      Se não for igual ao id, ou seja, o menuOpen for null, o resultado será false incrementando como o valor do id
-      Assim, o menu será aberto*/
-      
     },
-    deleteContact(id: number) {
-      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]') as Contact[];
-      const updatedContacts = contacts.filter(contact => contact.id !== id);
-      localStorage.setItem('contacts', JSON.stringify(updatedContacts));
-      this.contacts = updatedContacts;
-    },
-    editContact(id:number){
+    editContact(id: number) {
       this.$router.push(`/edit/${id}`);
     }
   }
