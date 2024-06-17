@@ -1,5 +1,5 @@
 
-import api from '../config'
+import api from '../rxjs'
 import { Contact} from '@/model/contact.model';
 
 export class ContactRest {
