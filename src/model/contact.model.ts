@@ -1,11 +1,8 @@
-export class Contact{
+export class ContactModel {
     constructor(
-        public contact : {
-            name?: string,
-            phoneNumber?: string,
-            email?: string,
-            id?: string
-        }
-       
-    ){}
+        public id?: number,
+        public name?: string,
+        public phoneNumber?: string,
+        public email?: string
+    ) { }
 }

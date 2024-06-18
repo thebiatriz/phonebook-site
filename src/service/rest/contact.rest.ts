@@ -1,24 +1,24 @@
 
 import api from '../rxjs'
-import { Contact} from '@/model/contact.model';
+import { ContactModel } from '@/model/contact.model';
 
 export class ContactRest {
-    async getContactById(id: string){
+    getContactById(id: string){
         return api.get(`/users/${id}`)
     }
 
-    async postContact(contact: Contact){
+   postContact(contact: ContactModel){
         return api.post(`/users`, contact); //usando api ao inves de "axios"
     }
 
-    async updateContact(id: string, updatedData: Partial<Contact>){
+    updateContact(id: string, updatedData: Partial<ContactModel>){
         return api.patch(`/users/${id}`, updatedData) //id na url e dados atualizados no corpo da requisição
     }
 
-    async deleteContact(id: string){
+    deleteContact(id: string){
         return api.delete(`/users/${id}`) //usa o id para realizar o delete
     }
-    async getContacts(){
+    getContacts(){
         return api.get(`/users`);
       }
 
