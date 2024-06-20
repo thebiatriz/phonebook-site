@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from "axios";
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig} from "axios";
 //const api = axios.create({baseURL:"/api"})
 
 function apiConfig(baseUrl: string): AxiosRequestConfig{
@@ -7,15 +7,21 @@ function apiConfig(baseUrl: string): AxiosRequestConfig{
     };
 }
 
+// Função para inicializar o Axios com interceptors e configuração
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 function initAxios(config: AxiosRequestConfig, token?: any): AxiosInstance{
     const defineInstance = axios.create(config);
+
+    // Interceptores de requisição
     defineInstance.interceptors.request.use(
-        (request: AxiosRequestConfig) => {
+        (request: InternalAxiosRequestConfig) => {
             return request;
         },
+        // Tratamento de erros de requisição
         (error) => Promise.reject(error)
     );
 
+// Interceptores de resposta
     defineInstance.interceptors.response.use (
         (response) => response,
         (error: AxiosError) => {
@@ -28,11 +34,12 @@ function initAxios(config: AxiosRequestConfig, token?: any): AxiosInstance{
 
 }
 
-function api(baseURL="/api", token?: any){
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function api(baseURL="/api", token?: any){
     return initAxios(apiConfig(baseURL), token);
 }
 
-export default api;
+// export default api;
 
 // api.interceptors.request.use(
 //     (request) => {

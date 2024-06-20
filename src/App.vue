@@ -6,6 +6,7 @@
   <router-view/>
 </template>
 
+<!-- Atualizar no tailwind -->
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
