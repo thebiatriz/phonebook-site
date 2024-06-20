@@ -8,6 +8,14 @@ export class HomeService{
         private contact$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
         contact: Observable<any> = this.contact$.asObservable();
 
+        getContacts(): void {
+          this._contacts.getContacts().pipe().subscribe({
+            next: (response: any) => {
+              this.contact$.next(response);
+            },
+          });
+        };
+
         getContactById(id:string):void{
           this._contacts.getContactById(id).pipe(take(1)).subscribe({
               next: (response: any) => {
