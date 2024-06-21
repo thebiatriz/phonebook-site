@@ -7,6 +7,7 @@ export class HomeService{
 
         private contact$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
         contact: Observable<any> = this.contact$.asObservable();
+        
 
         getContacts(): void {
           this._contacts.getContacts().pipe().subscribe({
@@ -14,13 +15,28 @@ export class HomeService{
               this.contact$.next(response);
             },
           });
-        };
+        }
 
-        getContactById(id:string):void{
+        getContactById(id:number):void{
           this._contacts.getContactById(id).pipe(take(1)).subscribe({
               next: (response: any) => {
                 this.contact$.next(response);
               },
             });
         }
+
+        deleteContact(id: number): Observable<void> {
+          return new Observable<void>((observer) => {
+              this._contacts.deleteContact(id).pipe(take(1)).subscribe({
+                  next: () => {
+                      observer.next();
+                      observer.complete();
+                  },
+                  error: (error: any) => {
+                      observer.error(error);
+                  }
+              });
+          });
+      }
+  
       }

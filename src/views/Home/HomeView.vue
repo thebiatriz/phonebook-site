@@ -13,12 +13,12 @@ import { defineComponent } from 'vue';
 import { ContactModel } from '@/model/contact.model';
 import { HomeService } from './HomeService';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { pipe } from 'rxjs';
+//import { pipe } from 'rxjs';
 
 export default defineComponent({
   data(){
     return{
-      id: '',
+      id: 0,
       contact: new ContactModel() // Fornecer um objeto vazio inicialmente, ou com dados padrão se necessário
     };
   },

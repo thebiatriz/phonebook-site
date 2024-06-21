@@ -7,7 +7,7 @@
         <router-link :to="'/contact/' + contact.id" class="text-blue-700">{{ contact.name }}</router-link>
 
         <div class="relative">
-          <button @click="toggleMenu(contact.id)" class="text-gray-500 hover:text-gray-700 scale-150">
+          <button @click="toggleMenu(contact.id!)" class="text-gray-500 hover:text-gray-700 scale-150">
             ⋮
           </button>
 
@@ -26,29 +26,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
+import { ContactModel } from '@/model/contact.model';
+import { HomeService } from '@/views/Home/HomeService';
 import Swal from 'sweetalert2';
-
-interface Contact {
-  id: number;
-  name: string;
-  phone: string;
-}
 
 export default defineComponent({
   name: 'ContactList',
-  props: {
-    contacts: {
-      type: Array as PropType<Contact[]>,
-      required: true,
-    },
-  },
   data() {
     return {
+      contacts: [] as ContactModel[], //array vazia para ser preenchida
       menuOpen: null as number | null,
+      homeService: new HomeService() //instância de HomeService para realizar operações relacionadas aos contatos
     };
   },
+  created() {
+    this.getContacts();
+  },
   methods: {
+    getContacts() {
+      this.homeService.contact.subscribe({
+        next: (contacts: ContactModel[]) => {
+          this.contacts = contacts;
+        },
+        error: (error: any) => {
+          console.error('Erro ao carregar contatos:', error);
+        }
+      });
+      this.homeService.getContacts();
+    },
     confirmDelete(id: number) {
       Swal.fire({
         title: 'Tem certeza que deseja apagar o contato?',
@@ -62,12 +68,19 @@ export default defineComponent({
         iconColor: '#FF7F50'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$emit('deleteContact', id);
-          Swal.fire({
-            title: 'Apagado!',
-            text: 'Seu contato foi apagado.',
-            icon: 'success',
-            confirmButtonColor: '#3daf7c'
+          this.homeService.deleteContact(id).subscribe({
+            next: () => {
+              this.getContacts();
+              Swal.fire({
+                title: 'Apagado!',
+                text: 'Seu contato foi apagado.',
+                icon: 'success',
+                confirmButtonColor: '#3daf7c'
+              });
+            },
+            error: (error: any) => {
+              console.error('Erro ao apagar o contato:', error);
+            }
           });
         }
       });
